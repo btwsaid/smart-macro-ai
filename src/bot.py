@@ -6,7 +6,7 @@ from io import BytesIO
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, BotCommand
 from aiogram.enums import ParseMode, ChatAction
 
 from .config import config
@@ -236,7 +236,7 @@ async def cmd_today(message: Message) -> None:
 
     try:
         from datetime import datetime
-        today = datetime.now().strftime('%Y-%m-%d')
+        today = datetime.utcnow().strftime('%Y-%m-%d')
         summary_data = await database.get_daily_summary(user_id, today)
 
         if not summary_data:
@@ -384,6 +384,18 @@ async def main() -> None:
     except Exception as e:
         logger.error(f"Failed to initialize database: {e}", exc_info=True)
         logger.warning("Bot will continue without database functionality")
+
+    # Set up bot command menu
+    commands = [
+        BotCommand(command="start", description="Start the bot"),
+        BotCommand(command="help", description="Show help and usage guide"),
+        BotCommand(command="history", description="View recent meals"),
+        BotCommand(command="today", description="Today's nutrition summary"),
+        BotCommand(command="week", description="This week's statistics"),
+        BotCommand(command="stats", description="All-time statistics"),
+    ]
+    await bot.set_my_commands(commands)
+    logger.info("Bot commands menu configured")
 
     try:
         # Start polling

@@ -129,7 +129,7 @@ class Database:
             List of nutrition analysis dictionaries
         """
         try:
-            cutoff_date = datetime.now() - timedelta(days=days)
+            cutoff_date = datetime.utcnow() - timedelta(days=days)
 
             async with aiosqlite.connect(self.db_path) as db:
                 db.row_factory = aiosqlite.Row
@@ -158,7 +158,7 @@ class Database:
         """
         try:
             if date is None:
-                date = datetime.now().strftime('%Y-%m-%d')
+                date = datetime.utcnow().strftime('%Y-%m-%d')
 
             async with aiosqlite.connect(self.db_path) as db:
                 db.row_factory = aiosqlite.Row
@@ -193,7 +193,7 @@ class Database:
         """
         try:
             # Get start of this week (Monday)
-            today = datetime.now()
+            today = datetime.utcnow()
             start_of_week = today - timedelta(days=today.weekday())
             start_date = start_of_week.strftime('%Y-%m-%d')
 
