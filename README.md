@@ -339,12 +339,6 @@ MIT License - feel free to use and modify!
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Support
-
-For issues or questions:
-1. Check existing GitHub issues
-2. Create a new issue with detailed information
-3. Include logs and error messages
 
 ---
 
