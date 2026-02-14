@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    container_name: smartmacro-bot
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Mount source code for easier development (optional, remove in production)
+      - ./src:/app/src:ro
+      # Mount data directory for persistent database storage
+      - ./data:/app/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Uncomment below to add Redis for future scaling
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: smartmacro-redis
+  #   restart: always
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis-data:/data
+
+# Uncomment if using Redis
+# volumes:
+#   redis-data:
